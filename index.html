@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f7f7">
+    <link rel="manifest" href="./manifest.json">
 
     <title>Bierverkostung</title>
-
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#f7f7f7">
 
     <style>
         * {
@@ -30,7 +29,8 @@
             margin-top: 25px;
         }
 
-        input {
+        input,
+        textarea {
             display: block;
             width: 100%;
             max-width: 400px;
@@ -39,6 +39,12 @@
             font-size: 16px;
             border: 1px solid #aaa;
             border-radius: 6px;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
         button {
@@ -101,6 +107,13 @@
             font-weight: bold;
         }
 
+        .notizenZelle {
+            white-space: normal;
+            text-align: left;
+            min-width: 200px;
+            max-width: 350px;
+        }
+
         @media (max-width: 700px) {
             body {
                 padding: 10px;
@@ -132,6 +145,10 @@
 
             #benutzerInfo {
                 text-align: center;
+            }
+
+            textarea {
+                min-height: 140px;
             }
         }
     </style>
@@ -261,18 +278,23 @@
 
         </div>
 
+
         <h1>🍺 Bierverkostung</h1>
+
 
         <h2 id="formularTitel">
             Neues Bier bewerten
         </h2>
 
-        <label>Biername:</label>
+
+        <label>Bier:</label>
 
         <input
             type="text"
             id="biername"
+            placeholder="Name des Bieres"
         >
+
 
         <label>Farbe:</label>
 
@@ -283,6 +305,7 @@
             max="10"
         >
 
+
         <label>Etikett:</label>
 
         <input
@@ -291,6 +314,7 @@
             min="0"
             max="10"
         >
+
 
         <label>Schaum:</label>
 
@@ -301,6 +325,7 @@
             max="10"
         >
 
+
         <label>Geruch:</label>
 
         <input
@@ -309,6 +334,7 @@
             min="0"
             max="10"
         >
+
 
         <label>Süffigkeit:</label>
 
@@ -319,6 +345,7 @@
             max="10"
         >
 
+
         <label>Geschmack:</label>
 
         <input
@@ -328,11 +355,22 @@
             max="10"
         >
 
+
+        <label>Notizen:</label>
+
+        <textarea
+            id="notizen"
+            placeholder="Deine persönlichen Notizen zum Bier..."
+        ></textarea>
+
+
         <br>
+
 
         <button onclick="bierSpeichern()">
             🍺 Bier speichern
         </button>
+
 
         <button
             onclick="abbrechenBearbeiten()"
@@ -342,7 +380,9 @@
             Bearbeiten abbrechen
         </button>
 
+
         <h2>Meine Biere</h2>
+
 
         <table>
 
@@ -357,6 +397,7 @@
                     <th>Geruch</th>
                     <th>Süffigkeit</th>
                     <th>Geschmack</th>
+                    <th>Notizen</th>
                     <th>Gesamt</th>
                     <th>Aktion</th>
                 </tr>
@@ -480,6 +521,7 @@
                 }
 
             });
+
         }
 
 
@@ -554,6 +596,7 @@
                 }
 
             });
+
         }
 
 
@@ -688,6 +731,7 @@
 
 
                 snapshot.forEach(
+
                     (documentSnapshot) => {
 
                         biere.push({
@@ -700,6 +744,7 @@
                         });
 
                     }
+
                 );
 
 
@@ -736,7 +781,7 @@
             if (name === "") {
 
                 alert(
-                    "Bitte einen Biernamen eingeben."
+                    "Bitte ein Bier eingeben."
                 );
 
                 return;
@@ -791,6 +836,13 @@
                 );
 
 
+            const notizen =
+                document
+                    .getElementById("notizen")
+                    .value
+                    .trim();
+
+
             const gesamt =
                 farbe +
                 etikett +
@@ -815,6 +867,8 @@
                 sueffigkeit: sueffigkeit,
 
                 geschmack: geschmack,
+
+                notizen: notizen,
 
                 gesamt: gesamt
 
@@ -926,6 +980,7 @@
 
 
             biere.forEach(
+
                 (bier, index) => {
 
                     const zeile =
@@ -968,6 +1023,10 @@
                             ${bier.geschmack}
                         </td>
 
+                        <td class="notizenZelle">
+                            ${bier.notizen || ""}
+                        </td>
+
                         <td class="gesamt">
                             ${bier.gesamt}
                         </td>
@@ -996,6 +1055,7 @@
                     );
 
                 }
+
             );
 
         }
@@ -1014,43 +1074,49 @@
             document
                 .getElementById("biername")
                 .value =
-                bier.name;
+                bier.name || "";
 
 
             document
                 .getElementById("farbe")
                 .value =
-                bier.farbe;
+                bier.farbe ?? "";
 
 
             document
                 .getElementById("etikett")
                 .value =
-                bier.etikett;
+                bier.etikett ?? "";
 
 
             document
                 .getElementById("schaum")
                 .value =
-                bier.schaum;
+                bier.schaum ?? "";
 
 
             document
                 .getElementById("geruch")
                 .value =
-                bier.geruch;
+                bier.geruch ?? "";
 
 
             document
                 .getElementById("sueffigkeit")
                 .value =
-                bier.sueffigkeit;
+                bier.sueffigkeit ?? "";
 
 
             document
                 .getElementById("geschmack")
                 .value =
-                bier.geschmack;
+                bier.geschmack ?? "";
+
+
+            document
+                .getElementById("notizen")
+                .value =
+                bier.notizen || "";
 
 
             bearbeitungsIndex =
@@ -1117,7 +1183,9 @@
 
 
                 await window.firebaseDeleteDoc(
+
                     bierDokument
+
                 );
 
 
@@ -1223,6 +1291,50 @@
                 )
                 .value = "";
 
+
+            document
+                .getElementById(
+                    "notizen"
+                )
+                .value = "";
+
+        }
+
+
+        // ==============================
+        // SERVICE WORKER
+        // ==============================
+
+        if ("serviceWorker" in navigator) {
+
+            window.addEventListener(
+                "load",
+                () => {
+
+                    navigator.serviceWorker.register(
+                        "./sw.js"
+                    )
+
+                    .then(() => {
+
+                        console.log(
+                            "Service Worker erfolgreich registriert."
+                        );
+
+                    })
+
+                    .catch((error) => {
+
+                        console.error(
+                            "Service Worker Fehler:",
+                            error
+                        );
+
+                    });
+
+                }
+            );
+
         }
 
 
@@ -1241,44 +1353,6 @@
             }
 
         );
-
-    </script>
-
-
-    <!-- SERVICE WORKER STARTEN -->
-
-    <script>
-
-        if ("serviceWorker" in navigator) {
-
-            window.addEventListener(
-                "load",
-                () => {
-
-                    navigator.serviceWorker
-                        .register("./sw.js")
-
-                        .then(() => {
-
-                            console.log(
-                                "Service Worker registriert"
-                            );
-
-                        })
-
-                        .catch((error) => {
-
-                            console.error(
-                                "Service Worker Fehler:",
-                                error
-                            );
-
-                        });
-
-                }
-            );
-
-        }
 
     </script>
 
