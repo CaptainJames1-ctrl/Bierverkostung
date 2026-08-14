@@ -1,118 +1,103 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bierverkostung</title>
 
-   <style>
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 15px;
-        background: #f7f7f7;
-    }
-
-    h1 {
-        text-align: center;
-        font-size: 28px;
-    }
-
-    h2 {
-        margin-top: 25px;
-    }
-
-    input {
-        display: block;
-        width: 100%;
-        max-width: 400px;
-        margin: 6px 0 14px 0;
-        padding: 12px;
-        font-size: 16px;
-        border: 1px solid #aaa;
-        border-radius: 6px;
-    }
-
-    button {
-        padding: 11px 15px;
-        margin: 5px 3px;
-        font-size: 16px;
-        border: 1px solid #888;
-        border-radius: 6px;
-        background: white;
-    }
-
-    table {
-        border-collapse: collapse;
-        margin-top: 20px;
-        width: 100%;
-        background: white;
-    }
-
-    th,
-    td {
-        border: 1px solid #999;
-        padding: 8px;
-        text-align: center;
-        white-space: nowrap;
-    }
-
-    th {
-        background: #eee;
-    }
-
-    .gesamt {
-        font-weight: bold;
-    }
-
-    /* Handy-Ansicht */
-    @media (max-width: 700px) {
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
         body {
-            padding: 10px;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 15px;
+            background: #f7f7f7;
         }
 
         h1 {
-            font-size: 24px;
+            text-align: center;
+            font-size: 28px;
         }
 
         h2 {
-            font-size: 20px;
+            margin-top: 25px;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 6px 0 14px 0;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 11px 15px;
+            margin: 5px 3px;
+            font-size: 16px;
+            border: 1px solid #888;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
         }
 
         table {
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+            background: white;
         }
 
         th,
         td {
-            padding: 7px;
-            font-size: 14px;
-        }
-
-        button {
-            font-size: 15px;
-        }
-    }
-</style>
-        th, td {
             border: 1px solid #999;
             padding: 8px;
             text-align: center;
+            white-space: nowrap;
         }
 
         th {
-            background-color: #eee;
+            background: #eee;
         }
 
         .gesamt {
             font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th,
+            td {
+                padding: 7px;
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -126,37 +111,25 @@
     <label>Biername:</label>
     <input type="text" id="biername">
 
-    <br><br>
-
     <label>Farbe:</label>
     <input type="number" id="farbe" min="0" max="10">
-
-    <br>
 
     <label>Etikett:</label>
     <input type="number" id="etikett" min="0" max="10">
 
-    <br>
-
     <label>Schaum:</label>
     <input type="number" id="schaum" min="0" max="10">
-
-    <br>
 
     <label>Geruch:</label>
     <input type="number" id="geruch" min="0" max="10">
 
-    <br>
-
     <label>Süffigkeit:</label>
     <input type="number" id="sueffigkeit" min="0" max="10">
-
-    <br>
 
     <label>Geschmack:</label>
     <input type="number" id="geschmack" min="0" max="10">
 
-    <br><br>
+    <br>
 
     <button onclick="bierSpeichern()">
         Bier speichern
@@ -166,11 +139,9 @@
         Bearbeiten abbrechen
     </button>
 
-
     <h2>Meine Biere</h2>
 
     <table>
-
         <thead>
             <tr>
                 <th>Nr.</th>
@@ -186,57 +157,34 @@
             </tr>
         </thead>
 
-        <tbody id="bierliste">
-        </tbody>
-
+        <tbody id="bierliste"></tbody>
     </table>
 
-
     <script>
-
         let biere = JSON.parse(
             localStorage.getItem("biere")
         ) || [];
 
         let bearbeitungsIndex = -1;
 
-
         function anzeigen() {
-
-            let liste =
-                document.getElementById("bierliste");
+            let liste = document.getElementById("bierliste");
 
             liste.innerHTML = "";
 
-
             biere.forEach((bier, index) => {
-
-                let zeile =
-                    document.createElement("tr");
-
+                let zeile = document.createElement("tr");
 
                 zeile.innerHTML = `
-
                     <td>${index + 1}</td>
-
                     <td>${bier.name}</td>
-
                     <td>${bier.farbe}</td>
-
                     <td>${bier.etikett}</td>
-
                     <td>${bier.schaum}</td>
-
                     <td>${bier.geruch}</td>
-
                     <td>${bier.sueffigkeit}</td>
-
                     <td>${bier.geschmack}</td>
-
-                    <td class="gesamt">
-                        ${bier.gesamt}
-                    </td>
-
+                    <td class="gesamt">${bier.gesamt}</td>
                     <td>
                         <button onclick="bierBearbeiten(${index})">
                             ✏️
@@ -246,48 +194,46 @@
                             🗑️
                         </button>
                     </td>
-
                 `;
 
-
                 liste.appendChild(zeile);
-
             });
-
         }
 
-
         function bierSpeichern() {
-
-            let name =
-                document.getElementById("biername").value.trim();
+            let name = document
+                .getElementById("biername")
+                .value
+                .trim();
 
             if (name === "") {
-
                 alert("Bitte einen Biernamen eingeben.");
-
                 return;
             }
 
+            let farbe = Number(
+                document.getElementById("farbe").value
+            );
 
-            let farbe =
-                Number(document.getElementById("farbe").value);
+            let etikett = Number(
+                document.getElementById("etikett").value
+            );
 
-            let etikett =
-                Number(document.getElementById("etikett").value);
+            let schaum = Number(
+                document.getElementById("schaum").value
+            );
 
-            let schaum =
-                Number(document.getElementById("schaum").value);
+            let geruch = Number(
+                document.getElementById("geruch").value
+            );
 
-            let geruch =
-                Number(document.getElementById("geruch").value);
+            let sueffigkeit = Number(
+                document.getElementById("sueffigkeit").value
+            );
 
-            let sueffigkeit =
-                Number(document.getElementById("sueffigkeit").value);
-
-            let geschmack =
-                Number(document.getElementById("geschmack").value);
-
+            let geschmack = Number(
+                document.getElementById("geschmack").value
+            );
 
             let gesamt =
                 farbe +
@@ -297,36 +243,21 @@
                 sueffigkeit +
                 geschmack;
 
-
             let bier = {
-
                 name: name,
-
                 farbe: farbe,
-
                 etikett: etikett,
-
                 schaum: schaum,
-
                 geruch: geruch,
-
                 sueffigkeit: sueffigkeit,
-
                 geschmack: geschmack,
-
                 gesamt: gesamt
-
             };
 
-
             if (bearbeitungsIndex === -1) {
-
                 biere.push(bier);
-
             } else {
-
                 biere[bearbeitungsIndex] = bier;
-
                 bearbeitungsIndex = -1;
 
                 document.getElementById("formularTitel")
@@ -334,25 +265,18 @@
 
                 document.getElementById("abbrechenButton")
                     .style.display = "none";
-
             }
-
 
             localStorage.setItem(
                 "biere",
                 JSON.stringify(biere)
             );
 
-
             formularLeeren();
-
             anzeigen();
-
         }
 
-
         function bierBearbeiten(index) {
-
             let bier = biere[index];
 
             document.getElementById("biername").value =
@@ -376,83 +300,57 @@
             document.getElementById("geschmack").value =
                 bier.geschmack;
 
-
             bearbeitungsIndex = index;
-
 
             document.getElementById("formularTitel")
                 .innerText = "Bier bearbeiten";
 
             document.getElementById("abbrechenButton")
                 .style.display = "inline-block";
-
         }
 
-
         function bierLoeschen(index) {
-
-            let bestaetigung =
-                confirm("Dieses Bier wirklich löschen?");
-
+            let bestaetigung = confirm(
+                "Dieses Bier wirklich löschen?"
+            );
 
             if (!bestaetigung) {
-
                 return;
-
             }
 
-
             biere.splice(index, 1);
-
 
             localStorage.setItem(
                 "biere",
                 JSON.stringify(biere)
             );
 
-
             anzeigen();
-
         }
 
-
         function abbrechenBearbeiten() {
-
             bearbeitungsIndex = -1;
 
             formularLeeren();
-
 
             document.getElementById("formularTitel")
                 .innerText = "Neues Bier bewerten";
 
             document.getElementById("abbrechenButton")
                 .style.display = "none";
-
         }
-
 
         function formularLeeren() {
-
             document.getElementById("biername").value = "";
-
             document.getElementById("farbe").value = "";
-
             document.getElementById("etikett").value = "";
-
             document.getElementById("schaum").value = "";
-
             document.getElementById("geruch").value = "";
-
             document.getElementById("sueffigkeit").value = "";
-
             document.getElementById("geschmack").value = "";
-
         }
 
-
         anzeigen();
-
     </script>
 
 </body>
