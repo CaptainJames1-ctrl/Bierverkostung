@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -45,6 +45,33 @@
             border-radius: 6px;
             background: white;
             cursor: pointer;
+        }
+
+        button:hover {
+            background: #eee;
+        }
+
+        #loginBereich {
+            max-width: 450px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        #appBereich {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        #benutzerInfo {
+            text-align: right;
+            margin-bottom: 15px;
+        }
+
+        #loginNachricht {
+            font-weight: bold;
         }
 
         table {
@@ -98,142 +125,552 @@
             button {
                 font-size: 15px;
             }
+
+            #benutzerInfo {
+                text-align: center;
+            }
         }
     </style>
+
+    <!-- Firebase -->
+    <script type="module">
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+        import {
+            getAuth,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            signOut,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDUSYxVSGNUmqYAy4i8crS1VRGL8nOo_d0",
+            authDomain: "bierverkostung.firebaseapp.com",
+            projectId: "bierverkostung",
+            storageBucket: "bierverkostung.firebasestorage.app",
+            messagingSenderId: "869623121454",
+            appId: "1:869623121454:web:9c896e7d3b5984db8941bf"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        window.firebaseAuth = auth;
+        window.firebaseCreateUser = createUserWithEmailAndPassword;
+        window.firebaseSignIn = signInWithEmailAndPassword;
+        window.firebaseSignOut = signOut;
+        window.firebaseOnAuthStateChanged = onAuthStateChanged;
+
+        window.dispatchEvent(new Event("firebaseReady"));
+    </script>
 </head>
 
 <body>
 
-    <h1>🍺 Bierverkostung</h1>
+    <!-- LOGIN -->
 
-    <h2 id="formularTitel">Neues Bier bewerten</h2>
+    <div id="loginBereich">
 
-    <label>Biername:</label>
-    <input type="text" id="biername">
+        <h1>🍺 Bierverkostung</h1>
 
-    <label>Farbe:</label>
-    <input type="number" id="farbe" min="0" max="10">
+        <h2>Anmelden</h2>
 
-    <label>Etikett:</label>
-    <input type="number" id="etikett" min="0" max="10">
+        <input
+            type="email"
+            id="email"
+            placeholder="E-Mail-Adresse"
+            autocomplete="email"
+        >
 
-    <label>Schaum:</label>
-    <input type="number" id="schaum" min="0" max="10">
+        <input
+            type="password"
+            id="passwort"
+            placeholder="Passwort"
+            autocomplete="current-password"
+        >
 
-    <label>Geruch:</label>
-    <input type="number" id="geruch" min="0" max="10">
+        <button onclick="anmelden()">
+            🔑 Anmelden
+        </button>
 
-    <label>Süffigkeit:</label>
-    <input type="number" id="sueffigkeit" min="0" max="10">
+        <button onclick="registrieren()">
+            👤 Konto erstellen
+        </button>
 
-    <label>Geschmack:</label>
-    <input type="number" id="geschmack" min="0" max="10">
+        <p id="loginNachricht"></p>
 
-    <br>
+    </div>
 
-    <button onclick="bierSpeichern()">
-        Bier speichern
-    </button>
 
-    <button onclick="abbrechenBearbeiten()" id="abbrechenButton" style="display:none;">
-        Bearbeiten abbrechen
-    </button>
+    <!-- APP -->
 
-    <h2>Meine Biere</h2>
+    <div id="appBereich" style="display:none;">
 
-    <table>
-        <thead>
-            <tr>
-                <th>Nr.</th>
-                <th>Bier</th>
-                <th>Farbe</th>
-                <th>Etikett</th>
-                <th>Schaum</th>
-                <th>Geruch</th>
-                <th>Süffigkeit</th>
-                <th>Geschmack</th>
-                <th>Gesamt</th>
-                <th>Aktion</th>
-            </tr>
-        </thead>
+        <div id="benutzerInfo">
+            <span id="angemeldeterBenutzer"></span>
 
-        <tbody id="bierliste"></tbody>
-    </table>
+            <button onclick="abmelden()">
+                🚪 Abmelden
+            </button>
+        </div>
+
+        <h1>🍺 Bierverkostung</h1>
+
+        <h2 id="formularTitel">
+            Neues Bier bewerten
+        </h2>
+
+        <label>Biername:</label>
+        <input type="text" id="biername">
+
+        <label>Farbe:</label>
+        <input
+            type="number"
+            id="farbe"
+            min="0"
+            max="10"
+        >
+
+        <label>Etikett:</label>
+        <input
+            type="number"
+            id="etikett"
+            min="0"
+            max="10"
+        >
+
+        <label>Schaum:</label>
+        <input
+            type="number"
+            id="schaum"
+            min="0"
+            max="10"
+        >
+
+        <label>Geruch:</label>
+        <input
+            type="number"
+            id="geruch"
+            min="0"
+            max="10"
+        >
+
+        <label>Süffigkeit:</label>
+        <input
+            type="number"
+            id="sueffigkeit"
+            min="0"
+            max="10"
+        >
+
+        <label>Geschmack:</label>
+        <input
+            type="number"
+            id="geschmack"
+            min="0"
+            max="10"
+        >
+
+        <br>
+
+        <button onclick="bierSpeichern()">
+            Bier speichern
+        </button>
+
+        <button
+            onclick="abbrechenBearbeiten()"
+            id="abbrechenButton"
+            style="display:none;"
+        >
+            Bearbeiten abbrechen
+        </button>
+
+        <h2>Meine Biere</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Bier</th>
+                    <th>Farbe</th>
+                    <th>Etikett</th>
+                    <th>Schaum</th>
+                    <th>Geruch</th>
+                    <th>Süffigkeit</th>
+                    <th>Geschmack</th>
+                    <th>Gesamt</th>
+                    <th>Aktion</th>
+                </tr>
+            </thead>
+
+            <tbody id="bierliste"></tbody>
+        </table>
+
+    </div>
+
 
     <script>
-        let biere = JSON.parse(
-            localStorage.getItem("biere")
-        ) || [];
+
+        let biere = [];
 
         let bearbeitungsIndex = -1;
 
+        let aktuellerBenutzer = null;
+
+
+        // --------------------------------------------------
+        // LOGIN
+        // --------------------------------------------------
+
+        function registrieren() {
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const passwort =
+                document.getElementById("passwort").value;
+
+            const nachricht =
+                document.getElementById("loginNachricht");
+
+
+            if (email === "" || passwort === "") {
+
+                nachricht.innerText =
+                    "Bitte E-Mail und Passwort eingeben.";
+
+                return;
+            }
+
+
+            if (passwort.length < 6) {
+
+                nachricht.innerText =
+                    "Das Passwort muss mindestens 6 Zeichen haben.";
+
+                return;
+            }
+
+
+            nachricht.innerText =
+                "Konto wird erstellt...";
+
+
+            window.firebaseCreateUser(
+                window.firebaseAuth,
+                email,
+                passwort
+            )
+            .then(() => {
+
+                nachricht.innerText =
+                    "Konto erfolgreich erstellt!";
+
+            })
+            .catch((error) => {
+
+                console.error(error);
+
+                if (error.code === "auth/email-already-in-use") {
+
+                    nachricht.innerText =
+                        "Diese E-Mail-Adresse ist bereits registriert.";
+
+                } else if (error.code === "auth/invalid-email") {
+
+                    nachricht.innerText =
+                        "Die E-Mail-Adresse ist ungültig.";
+
+                } else if (error.code === "auth/weak-password") {
+
+                    nachricht.innerText =
+                        "Das Passwort ist zu schwach.";
+
+                } else {
+
+                    nachricht.innerText =
+                        "Fehler: " + error.message;
+                }
+            });
+        }
+
+
+        function anmelden() {
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const passwort =
+                document.getElementById("passwort").value;
+
+            const nachricht =
+                document.getElementById("loginNachricht");
+
+
+            if (email === "" || passwort === "") {
+
+                nachricht.innerText =
+                    "Bitte E-Mail und Passwort eingeben.";
+
+                return;
+            }
+
+
+            nachricht.innerText =
+                "Anmeldung läuft...";
+
+
+            window.firebaseSignIn(
+                window.firebaseAuth,
+                email,
+                passwort
+            )
+            .then(() => {
+
+                nachricht.innerText =
+                    "";
+
+            })
+            .catch((error) => {
+
+                console.error(error);
+
+                if (
+                    error.code === "auth/invalid-credential" ||
+                    error.code === "auth/wrong-password" ||
+                    error.code === "auth/user-not-found"
+                ) {
+
+                    nachricht.innerText =
+                        "E-Mail oder Passwort ist falsch.";
+
+                } else {
+
+                    nachricht.innerText =
+                        "Fehler: " + error.message;
+                }
+            });
+        }
+
+
+        function abmelden() {
+
+            window.firebaseSignOut(
+                window.firebaseAuth
+            );
+        }
+
+
+        // --------------------------------------------------
+        // BENUTZERSTATUS
+        // --------------------------------------------------
+
+        function benutzerStatusStarten() {
+
+            window.firebaseOnAuthStateChanged(
+                window.firebaseAuth,
+                (user) => {
+
+                    if (user) {
+
+                        aktuellerBenutzer = user;
+
+                        document.getElementById(
+                            "loginBereich"
+                        ).style.display = "none";
+
+                        document.getElementById(
+                            "appBereich"
+                        ).style.display = "block";
+
+                        document.getElementById(
+                            "angemeldeterBenutzer"
+                        ).innerText =
+                            "Angemeldet als: " + user.email;
+
+                        ladeBiere();
+
+                    } else {
+
+                        aktuellerBenutzer = null;
+
+                        document.getElementById(
+                            "loginBereich"
+                        ).style.display = "block";
+
+                        document.getElementById(
+                            "appBereich"
+                        ).style.display = "none";
+
+                        biere = [];
+                    }
+                }
+            );
+        }
+
+
+        // --------------------------------------------------
+        // BENUTZER-SPEICHER
+        // --------------------------------------------------
+
+        function speicherSchluessel() {
+
+            if (!aktuellerBenutzer) {
+                return null;
+            }
+
+            return "biere_" + aktuellerBenutzer.uid;
+        }
+
+
+        function ladeBiere() {
+
+            const schluessel =
+                speicherSchluessel();
+
+            if (!schluessel) {
+                return;
+            }
+
+            biere = JSON.parse(
+                localStorage.getItem(schluessel)
+            ) || [];
+
+            anzeigen();
+        }
+
+
+        function speichereBiere() {
+
+            const schluessel =
+                speicherSchluessel();
+
+            if (!schluessel) {
+                return;
+            }
+
+            localStorage.setItem(
+                schluessel,
+                JSON.stringify(biere)
+            );
+        }
+
+
+        // --------------------------------------------------
+        // BIERLISTE
+        // --------------------------------------------------
+
         function anzeigen() {
-            let liste = document.getElementById("bierliste");
+
+            let liste =
+                document.getElementById("bierliste");
 
             liste.innerHTML = "";
 
+
             biere.forEach((bier, index) => {
-                let zeile = document.createElement("tr");
+
+                let zeile =
+                    document.createElement("tr");
+
 
                 zeile.innerHTML = `
+
                     <td>${index + 1}</td>
+
                     <td>${bier.name}</td>
+
                     <td>${bier.farbe}</td>
+
                     <td>${bier.etikett}</td>
+
                     <td>${bier.schaum}</td>
+
                     <td>${bier.geruch}</td>
+
                     <td>${bier.sueffigkeit}</td>
+
                     <td>${bier.geschmack}</td>
-                    <td class="gesamt">${bier.gesamt}</td>
+
+                    <td class="gesamt">
+                        ${bier.gesamt}
+                    </td>
+
                     <td>
-                        <button onclick="bierBearbeiten(${index})">
+
+                        <button
+                            onclick="bierBearbeiten(${index})"
+                        >
                             ✏️
                         </button>
 
-                        <button onclick="bierLoeschen(${index})">
+                        <button
+                            onclick="bierLoeschen(${index})"
+                        >
                             🗑️
                         </button>
+
                     </td>
                 `;
+
 
                 liste.appendChild(zeile);
             });
         }
 
+
         function bierSpeichern() {
-            let name = document
-                .getElementById("biername")
-                .value
-                .trim();
+
+            let name =
+                document
+                    .getElementById("biername")
+                    .value
+                    .trim();
+
 
             if (name === "") {
-                alert("Bitte einen Biernamen eingeben.");
+
+                alert(
+                    "Bitte einen Biernamen eingeben."
+                );
+
                 return;
             }
 
-            let farbe = Number(
-                document.getElementById("farbe").value
-            );
 
-            let etikett = Number(
-                document.getElementById("etikett").value
-            );
+            let farbe =
+                Number(
+                    document.getElementById("farbe").value
+                );
 
-            let schaum = Number(
-                document.getElementById("schaum").value
-            );
+            let etikett =
+                Number(
+                    document.getElementById("etikett").value
+                );
 
-            let geruch = Number(
-                document.getElementById("geruch").value
-            );
+            let schaum =
+                Number(
+                    document.getElementById("schaum").value
+                );
 
-            let sueffigkeit = Number(
-                document.getElementById("sueffigkeit").value
-            );
+            let geruch =
+                Number(
+                    document.getElementById("geruch").value
+                );
 
-            let geschmack = Number(
-                document.getElementById("geschmack").value
-            );
+            let sueffigkeit =
+                Number(
+                    document.getElementById("sueffigkeit").value
+                );
+
+            let geschmack =
+                Number(
+                    document.getElementById("geschmack").value
+                );
+
 
             let gesamt =
                 farbe +
@@ -243,114 +680,203 @@
                 sueffigkeit +
                 geschmack;
 
+
             let bier = {
+
                 name: name,
+
                 farbe: farbe,
+
                 etikett: etikett,
+
                 schaum: schaum,
+
                 geruch: geruch,
+
                 sueffigkeit: sueffigkeit,
+
                 geschmack: geschmack,
+
                 gesamt: gesamt
             };
 
+
             if (bearbeitungsIndex === -1) {
+
                 biere.push(bier);
+
             } else {
-                biere[bearbeitungsIndex] = bier;
+
+                biere[bearbeitungsIndex] =
+                    bier;
+
                 bearbeitungsIndex = -1;
 
-                document.getElementById("formularTitel")
-                    .innerText = "Neues Bier bewerten";
+                document.getElementById(
+                    "formularTitel"
+                ).innerText =
+                    "Neues Bier bewerten";
 
-                document.getElementById("abbrechenButton")
-                    .style.display = "none";
+                document.getElementById(
+                    "abbrechenButton"
+                ).style.display =
+                    "none";
             }
 
-            localStorage.setItem(
-                "biere",
-                JSON.stringify(biere)
-            );
+
+            speichereBiere();
 
             formularLeeren();
+
             anzeigen();
         }
 
-        function bierBearbeiten(index) {
-            let bier = biere[index];
 
-            document.getElementById("biername").value =
+        function bierBearbeiten(index) {
+
+            let bier =
+                biere[index];
+
+
+            document.getElementById(
+                "biername"
+            ).value =
                 bier.name;
 
-            document.getElementById("farbe").value =
+            document.getElementById(
+                "farbe"
+            ).value =
                 bier.farbe;
 
-            document.getElementById("etikett").value =
+            document.getElementById(
+                "etikett"
+            ).value =
                 bier.etikett;
 
-            document.getElementById("schaum").value =
+            document.getElementById(
+                "schaum"
+            ).value =
                 bier.schaum;
 
-            document.getElementById("geruch").value =
+            document.getElementById(
+                "geruch"
+            ).value =
                 bier.geruch;
 
-            document.getElementById("sueffigkeit").value =
+            document.getElementById(
+                "sueffigkeit"
+            ).value =
                 bier.sueffigkeit;
 
-            document.getElementById("geschmack").value =
+            document.getElementById(
+                "geschmack"
+            ).value =
                 bier.geschmack;
 
-            bearbeitungsIndex = index;
 
-            document.getElementById("formularTitel")
-                .innerText = "Bier bearbeiten";
+            bearbeitungsIndex =
+                index;
 
-            document.getElementById("abbrechenButton")
-                .style.display = "inline-block";
+
+            document.getElementById(
+                "formularTitel"
+            ).innerText =
+                "Bier bearbeiten";
+
+
+            document.getElementById(
+                "abbrechenButton"
+            ).style.display =
+                "inline-block";
         }
 
+
         function bierLoeschen(index) {
-            let bestaetigung = confirm(
-                "Dieses Bier wirklich löschen?"
-            );
+
+            let bestaetigung =
+                confirm(
+                    "Dieses Bier wirklich löschen?"
+                );
+
 
             if (!bestaetigung) {
                 return;
             }
 
+
             biere.splice(index, 1);
 
-            localStorage.setItem(
-                "biere",
-                JSON.stringify(biere)
-            );
+            speichereBiere();
 
             anzeigen();
         }
 
+
         function abbrechenBearbeiten() {
+
             bearbeitungsIndex = -1;
 
             formularLeeren();
 
-            document.getElementById("formularTitel")
-                .innerText = "Neues Bier bewerten";
 
-            document.getElementById("abbrechenButton")
-                .style.display = "none";
+            document.getElementById(
+                "formularTitel"
+            ).innerText =
+                "Neues Bier bewerten";
+
+
+            document.getElementById(
+                "abbrechenButton"
+            ).style.display =
+                "none";
         }
+
 
         function formularLeeren() {
-            document.getElementById("biername").value = "";
-            document.getElementById("farbe").value = "";
-            document.getElementById("etikett").value = "";
-            document.getElementById("schaum").value = "";
-            document.getElementById("geruch").value = "";
-            document.getElementById("sueffigkeit").value = "";
-            document.getElementById("geschmack").value = "";
+
+            document.getElementById(
+                "biername"
+            ).value = "";
+
+            document.getElementById(
+                "farbe"
+            ).value = "";
+
+            document.getElementById(
+                "etikett"
+            ).value = "";
+
+            document.getElementById(
+                "schaum"
+            ).value = "";
+
+            document.getElementById(
+                "geruch"
+            ).value = "";
+
+            document.getElementById(
+                "sueffigkeit"
+            ).value = "";
+
+            document.getElementById(
+                "geschmack"
+            ).value = "";
         }
 
-        anzeigen();
+
+        // --------------------------------------------------
+        // FIREBASE START
+        // --------------------------------------------------
+
+        window.addEventListener(
+            "firebaseReady",
+            () => {
+
+                benutzerStatusStarten();
+
+            }
+        );
+
     </script>
 
 </body>
