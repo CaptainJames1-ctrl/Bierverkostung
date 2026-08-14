@@ -5,30 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bierverkostung</title>
 
-    <style>
+   <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 15px;
+        background: #f7f7f7;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 28px;
+    }
+
+    h2 {
+        margin-top: 25px;
+    }
+
+    input {
+        display: block;
+        width: 100%;
+        max-width: 400px;
+        margin: 6px 0 14px 0;
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #aaa;
+        border-radius: 6px;
+    }
+
+    button {
+        padding: 11px 15px;
+        margin: 5px 3px;
+        font-size: 16px;
+        border: 1px solid #888;
+        border-radius: 6px;
+        background: white;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin-top: 20px;
+        width: 100%;
+        background: white;
+    }
+
+    th,
+    td {
+        border: 1px solid #999;
+        padding: 8px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    th {
+        background: #eee;
+    }
+
+    .gesamt {
+        font-weight: bold;
+    }
+
+    /* Handy-Ansicht */
+    @media (max-width: 700px) {
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            padding: 10px;
         }
 
-        input {
-            margin: 5px;
-            padding: 6px;
-            width: 120px;
+        h1 {
+            font-size: 24px;
         }
 
-        button {
-            margin: 5px;
-            padding: 8px 12px;
-            cursor: pointer;
+        h2 {
+            font-size: 20px;
         }
 
         table {
-            border-collapse: collapse;
-            margin-top: 20px;
-            width: 100%;
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
+        th,
+        td {
+            padding: 7px;
+            font-size: 14px;
+        }
+
+        button {
+            font-size: 15px;
+        }
+    }
+</style>
         th, td {
             border: 1px solid #999;
             padding: 8px;
