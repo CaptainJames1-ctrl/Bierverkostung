@@ -133,7 +133,6 @@
     </style>
 
     <script type="module">
-
         import { initializeApp }
             from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
@@ -155,7 +154,6 @@
             doc
         } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-
         const firebaseConfig = {
             apiKey: "AIzaSyDUSYxVSGNUmqYAy4i8crS1VRGL8nOo_d0",
             authDomain: "bierverkostung.firebaseapp.com",
@@ -165,13 +163,9 @@
             appId: "1:869623121454:web:9c896e7d3b5984db8941bf"
         };
 
-
         const app = initializeApp(firebaseConfig);
-
         const auth = getAuth(app);
-
         const db = getFirestore(app);
-
 
         window.firebaseAuth = auth;
         window.firebaseDB = db;
@@ -206,17 +200,13 @@
         window.firebaseDoc =
             doc;
 
-
         window.dispatchEvent(
             new Event("firebaseReady")
         );
-
     </script>
-
 </head>
 
 <body>
-
 
     <!-- LOGIN -->
 
@@ -390,7 +380,6 @@
     </div>
 
 
-
     <script>
 
         let biere = [];
@@ -398,7 +387,6 @@
         let bearbeitungsIndex = -1;
 
         let aktuellerBenutzer = null;
-
 
 
         // ==============================
@@ -462,6 +450,7 @@
 
                 console.error(error);
 
+
                 if (
                     error.code ===
                     "auth/email-already-in-use"
@@ -497,12 +486,11 @@
                     nachricht.innerText =
                         "Fehler: " +
                         error.message;
+
                 }
 
             });
-
         }
-
 
 
         // ==============================
@@ -556,6 +544,7 @@
 
                 console.error(error);
 
+
                 if (
                     error.code ===
                     "auth/invalid-credential"
@@ -571,12 +560,11 @@
                     nachricht.innerText =
                         "Fehler: " +
                         error.message;
+
                 }
 
             });
-
         }
-
 
 
         // ==============================
@@ -592,7 +580,6 @@
         }
 
 
-
         // ==============================
         // BENUTZERSTATUS
         // ==============================
@@ -604,6 +591,7 @@
                 window.firebaseAuth,
 
                 async (user) => {
+
 
                     if (user) {
 
@@ -672,7 +660,6 @@
         }
 
 
-
         // ==============================
         // FIRESTORE-PFAD
         // ==============================
@@ -692,7 +679,6 @@
             );
 
         }
-
 
 
         // ==============================
@@ -745,14 +731,13 @@
         }
 
 
-
         // ==============================
         // BIER SPEICHERN
         // ==============================
 
         async function bierSpeichern() {
 
-            let name =
+            const name =
                 document
                     .getElementById("biername")
                     .value
@@ -766,10 +751,11 @@
                 );
 
                 return;
+
             }
 
 
-            let farbe =
+            const farbe =
                 Number(
                     document
                         .getElementById("farbe")
@@ -777,7 +763,7 @@
                 );
 
 
-            let etikett =
+            const etikett =
                 Number(
                     document
                         .getElementById("etikett")
@@ -785,7 +771,7 @@
                 );
 
 
-            let schaum =
+            const schaum =
                 Number(
                     document
                         .getElementById("schaum")
@@ -793,7 +779,7 @@
                 );
 
 
-            let geruch =
+            const geruch =
                 Number(
                     document
                         .getElementById("geruch")
@@ -801,7 +787,7 @@
                 );
 
 
-            let sueffigkeit =
+            const sueffigkeit =
                 Number(
                     document
                         .getElementById("sueffigkeit")
@@ -809,7 +795,7 @@
                 );
 
 
-            let geschmack =
+            const geschmack =
                 Number(
                     document
                         .getElementById("geschmack")
@@ -817,7 +803,7 @@
                 );
 
 
-            let gesamt =
+            const gesamt =
                 farbe +
                 etikett +
                 schaum +
@@ -826,7 +812,7 @@
                 geschmack;
 
 
-            let bier = {
+            const bier = {
 
                 name: name,
 
@@ -849,13 +835,14 @@
 
             try {
 
-                if (
-                    bearbeitungsIndex === -1
-                ) {
+                if (bearbeitungsIndex === -1) {
 
                     await window.firebaseAddDoc(
+
                         bierSammlung(),
+
                         bier
+
                     );
 
                 }
@@ -885,8 +872,11 @@
 
 
                     await window.firebaseUpdateDoc(
+
                         bierDokument,
+
                         bier
+
                     );
 
 
@@ -931,14 +921,13 @@
         }
 
 
-
         // ==============================
         // ANZEIGEN
         // ==============================
 
         function anzeigen() {
 
-            let liste =
+            const liste =
                 document
                     .getElementById(
                         "bierliste"
@@ -951,7 +940,7 @@
             biere.forEach(
                 (bier, index) => {
 
-                    let zeile =
+                    const zeile =
                         document.createElement(
                             "tr"
                         );
@@ -1024,14 +1013,13 @@
         }
 
 
-
         // ==============================
         // BEARBEITEN
         // ==============================
 
         function bierBearbeiten(index) {
 
-            let bier =
+            const bier =
                 biere[index];
 
 
@@ -1099,14 +1087,13 @@
         }
 
 
-
         // ==============================
         // LÖSCHEN
         // ==============================
 
         async function bierLoeschen(index) {
 
-            let bestaetigung =
+            const bestaetigung =
                 confirm(
                     "Dieses Bier wirklich löschen?"
                 );
@@ -1161,7 +1148,6 @@
         }
 
 
-
         // ==============================
         // BEARBEITEN ABBRECHEN
         // ==============================
@@ -1191,7 +1177,6 @@
                 "none";
 
         }
-
 
 
         // ==============================
@@ -1251,18 +1236,20 @@
         }
 
 
-
         // ==============================
         // FIREBASE STARTEN
         // ==============================
 
         window.addEventListener(
+
             "firebaseReady",
+
             () => {
 
                 benutzerStatusStarten();
 
             }
+
         );
 
     </script>
