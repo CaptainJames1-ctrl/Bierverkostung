@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Bierverkostung</title>
+
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#f7f7f7">
 
     <style>
         * {
@@ -257,13 +261,11 @@
 
         </div>
 
-
         <h1>🍺 Bierverkostung</h1>
 
         <h2 id="formularTitel">
             Neues Bier bewerten
         </h2>
-
 
         <label>Biername:</label>
 
@@ -271,7 +273,6 @@
             type="text"
             id="biername"
         >
-
 
         <label>Farbe:</label>
 
@@ -282,7 +283,6 @@
             max="10"
         >
 
-
         <label>Etikett:</label>
 
         <input
@@ -291,7 +291,6 @@
             min="0"
             max="10"
         >
-
 
         <label>Schaum:</label>
 
@@ -302,7 +301,6 @@
             max="10"
         >
 
-
         <label>Geruch:</label>
 
         <input
@@ -311,7 +309,6 @@
             min="0"
             max="10"
         >
-
 
         <label>Süffigkeit:</label>
 
@@ -322,7 +319,6 @@
             max="10"
         >
 
-
         <label>Geschmack:</label>
 
         <input
@@ -332,14 +328,11 @@
             max="10"
         >
 
-
         <br>
-
 
         <button onclick="bierSpeichern()">
             🍺 Bier speichern
         </button>
-
 
         <button
             onclick="abbrechenBearbeiten()"
@@ -349,9 +342,7 @@
             Bearbeiten abbrechen
         </button>
 
-
         <h2>Meine Biere</h2>
-
 
         <table>
 
@@ -371,7 +362,6 @@
                 </tr>
 
             </thead>
-
 
             <tbody id="bierliste"></tbody>
 
@@ -592,7 +582,6 @@
 
                 async (user) => {
 
-
                     if (user) {
 
                         aktuellerBenutzer =
@@ -751,7 +740,6 @@
                 );
 
                 return;
-
             }
 
 
@@ -1100,7 +1088,9 @@
 
 
             if (!bestaetigung) {
+
                 return;
+
             }
 
 
@@ -1251,6 +1241,44 @@
             }
 
         );
+
+    </script>
+
+
+    <!-- SERVICE WORKER STARTEN -->
+
+    <script>
+
+        if ("serviceWorker" in navigator) {
+
+            window.addEventListener(
+                "load",
+                () => {
+
+                    navigator.serviceWorker
+                        .register("./sw.js")
+
+                        .then(() => {
+
+                            console.log(
+                                "Service Worker registriert"
+                            );
+
+                        })
+
+                        .catch((error) => {
+
+                            console.error(
+                                "Service Worker Fehler:",
+                                error
+                            );
+
+                        });
+
+                }
+            );
+
+        }
 
     </script>
 

@@ -1,0 +1,11 @@
+{
+  {
+  "name": "Bierverkostung",
+  "short_name": "Bierverkostung",
+  "description": "Meine persönliche Bierverkostungs-App",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f7f7",
+  "theme_color": "#f7f7f7",
+  "lang": "de"
+}
