@@ -29,8 +29,7 @@
             margin-top: 25px;
         }
 
-        input,
-        textarea {
+        input {
             display: block;
             width: 100%;
             max-width: 400px;
@@ -39,12 +38,6 @@
             font-size: 16px;
             border: 1px solid #aaa;
             border-radius: 6px;
-            font-family: Arial, sans-serif;
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
         }
 
         button {
@@ -84,6 +77,15 @@
             font-weight: bold;
         }
 
+        #suchBereich {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        #suche {
+            max-width: 500px;
+        }
+
         table {
             border-collapse: collapse;
             margin-top: 20px;
@@ -107,11 +109,10 @@
             font-weight: bold;
         }
 
-        .notizenZelle {
-            white-space: normal;
+        .notizen {
             text-align: left;
-            min-width: 200px;
-            max-width: 350px;
+            white-space: normal;
+            min-width: 180px;
         }
 
         @media (max-width: 700px) {
@@ -145,10 +146,6 @@
 
             #benutzerInfo {
                 text-align: center;
-            }
-
-            textarea {
-                min-height: 140px;
             }
         }
     </style>
@@ -292,7 +289,6 @@
         <input
             type="text"
             id="biername"
-            placeholder="Name des Bieres"
         >
 
 
@@ -358,10 +354,11 @@
 
         <label>Notizen:</label>
 
-        <textarea
+        <input
+            type="text"
             id="notizen"
-            placeholder="Deine persönlichen Notizen zum Bier..."
-        ></textarea>
+            placeholder="Notizen zum Bier"
+        >
 
 
         <br>
@@ -381,8 +378,27 @@
         </button>
 
 
-        <h2>Meine Biere</h2>
+        <!-- SUCHE -->
 
+        <div id="suchBereich">
+
+            <h2>Meine Biere</h2>
+
+            <label for="suche">
+                Bier suchen:
+            </label>
+
+            <input
+                type="search"
+                id="suche"
+                placeholder="Biername eingeben..."
+                oninput="anzeigen()"
+            >
+
+        </div>
+
+
+        <!-- TABELLE -->
 
         <table>
 
@@ -731,7 +747,6 @@
 
 
                 snapshot.forEach(
-
                     (documentSnapshot) => {
 
                         biere.push({
@@ -744,7 +759,30 @@
                         });
 
                     }
+                );
 
+
+                /*
+                 * Neue Einträge werden nach
+                 * Eintragungszeit sortiert.
+                 *
+                 * Ältere Einträge ohne
+                 * zeitstempel bleiben dabei
+                 * am Anfang.
+                 */
+
+                biere.sort(
+                    (a, b) => {
+
+                        const zeitA =
+                            a.erstelltAm || 0;
+
+                        const zeitB =
+                            b.erstelltAm || 0;
+
+                        return zeitA - zeitB;
+
+                    }
                 );
 
 
@@ -781,10 +819,11 @@
             if (name === "") {
 
                 alert(
-                    "Bitte ein Bier eingeben."
+                    "Bitte einen Biernamen eingeben."
                 );
 
                 return;
+
             }
 
 
@@ -868,9 +907,7 @@
 
                 geschmack: geschmack,
 
-                notizen: notizen,
-
-                gesamt: gesamt
+                notizen: notizen
 
             };
 
@@ -878,6 +915,18 @@
             try {
 
                 if (bearbeitungsIndex === -1) {
+
+                    /*
+                     * Zeitstempel nur beim
+                     * erstmaligen Erstellen setzen.
+                     */
+
+                    bier.erstelltAm =
+                        Date.now();
+
+                    bier.gesamt =
+                        gesamt;
+
 
                     await window.firebaseAddDoc(
 
@@ -911,6 +960,36 @@
                             bierId
 
                         );
+
+
+                    bier.gesamt =
+                        gesamt;
+
+
+                    /*
+                     * Den ursprünglichen
+                     * Zeitstempel nicht verändern.
+                     */
+
+                    if (
+                        biere[
+                            bearbeitungsIndex
+                        ].erstelltAm
+                    ) {
+
+                        bier.erstelltAm =
+                            biere[
+                                bearbeitungsIndex
+                            ].erstelltAm;
+
+                    }
+
+                    else {
+
+                        bier.erstelltAm =
+                            Date.now();
+
+                    }
 
 
                     await window.firebaseUpdateDoc(
@@ -979,9 +1058,43 @@
             liste.innerHTML = "";
 
 
-            biere.forEach(
+            const suchtext =
+                document
+                    .getElementById("suche")
+                    .value
+                    .trim()
+                    .toLowerCase();
 
-                (bier, index) => {
+
+            /*
+             * Die eigentliche Liste bleibt
+             * unverändert.
+             *
+             * Die Suche filtert nur die
+             * Anzeige.
+             */
+
+            const gefilterteBiere =
+                biere.filter(
+                    (bier) => {
+
+                        return bier.name
+                            .toLowerCase()
+                            .includes(
+                                suchtext
+                            );
+
+                    }
+                );
+
+
+            gefilterteBiere.forEach(
+
+                (bier) => {
+
+                    const index =
+                        biere.indexOf(bier);
+
 
                     const zeile =
                         document.createElement(
@@ -996,7 +1109,7 @@
                         </td>
 
                         <td>
-                            ${bier.name}
+                            ${escapeHtml(bier.name)}
                         </td>
 
                         <td>
@@ -1023,8 +1136,10 @@
                             ${bier.geschmack}
                         </td>
 
-                        <td class="notizenZelle">
-                            ${bier.notizen || ""}
+                        <td class="notizen">
+                            ${escapeHtml(
+                                bier.notizen || ""
+                            )}
                         </td>
 
                         <td class="gesamt">
@@ -1057,6 +1172,25 @@
                 }
 
             );
+
+        }
+
+
+        // ==============================
+        // SICHERHEIT FÜR BIERNAME/NOTIZEN
+        // ==============================
+
+        function escapeHtml(text) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.textContent =
+                text;
+
+            return div.innerHTML;
 
         }
 
@@ -1183,9 +1317,7 @@
 
 
                 await window.firebaseDeleteDoc(
-
                     bierDokument
-
                 );
 
 
@@ -1297,43 +1429,6 @@
                     "notizen"
                 )
                 .value = "";
-
-        }
-
-
-        // ==============================
-        // SERVICE WORKER
-        // ==============================
-
-        if ("serviceWorker" in navigator) {
-
-            window.addEventListener(
-                "load",
-                () => {
-
-                    navigator.serviceWorker.register(
-                        "./sw.js"
-                    )
-
-                    .then(() => {
-
-                        console.log(
-                            "Service Worker erfolgreich registriert."
-                        );
-
-                    })
-
-                    .catch((error) => {
-
-                        console.error(
-                            "Service Worker Fehler:",
-                            error
-                        );
-
-                    });
-
-                }
-            );
 
         }
 
