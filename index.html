@@ -111,6 +111,7 @@ td {
     padding: 8px;
     text-align: center;
     white-space: nowrap;
+    vertical-align: middle;
 }
 
 th {
@@ -431,7 +432,6 @@ Neues Bier bewerten
     type="file"
     id="etikettFoto"
     accept="image/*"
-    capture="environment"
     onchange="fotoAusgewaehlt(event)"
 >
 
@@ -613,6 +613,8 @@ Bearbeiten abbrechen
 <th>Alk.</th>
 
 <th>Etikett</th>
+
+<th>Foto</th>
 
 <th>Farbe</th>
 
@@ -998,13 +1000,6 @@ snapshot.forEach(
 );
 
 
-/*
-Firestore liefert Dokumente nicht
-garantiert in einer bestimmten
-Reihenfolge. Wir speichern deshalb
-beim Anlegen einen Zeitstempel.
-*/
-
 biere.sort(
     (a, b) =>
         (a.erstelltAm || 0) -
@@ -1123,13 +1118,6 @@ reader.onload =
                         }
 
 
-                        /*
-                        JPEG-Qualität 0.65.
-                        Dadurch bleiben Fotos
-                        gut lesbar und werden
-                        deutlich kleiner.
-                        */
-
                         const reader2 =
                             new FileReader();
 
@@ -1142,6 +1130,10 @@ reader.onload =
                                 );
 
                             };
+
+
+                        reader2.onerror =
+                            reject;
 
 
                         reader2.readAsDataURL(
@@ -1177,6 +1169,7 @@ reader.readAsDataURL(file);
 
 });
 
+
 }
 
 
@@ -1202,6 +1195,8 @@ if (
 alert(
     "Bitte eine Bilddatei auswählen."
 );
+
+event.target.value = "";
 
 return;
 
@@ -1235,6 +1230,8 @@ console.error(error);
 alert(
     "Das Foto konnte nicht verarbeitet werden."
 );
+
+event.target.value = "";
 
 }
 
@@ -1634,13 +1631,6 @@ ergebnis.sort(
 }
 
 
-/*
-Bei "eingabe" wird nichts
-verändert. Die ursprüngliche
-Eintragsreihenfolge bleibt erhalten.
-*/
-
-
 anzeigen(
     ergebnis
 );
@@ -1727,6 +1717,10 @@ liste.forEach(
             </td>
 
             <td>
+                ${bier.etikett ?? ""}
+            </td>
+
+            <td>
                 ${fotoHTML}
             </td>
 
@@ -1783,8 +1777,6 @@ liste.forEach(
 
     }
 );
-
-}
 
 
 /* ==============================
@@ -1893,6 +1885,11 @@ document
     .value =
     bier.notizen || "";
 
+
+/*
+Beim Bearbeiten wird das bisherige Foto
+zunächst übernommen.
+*/
 
 aktuellesFoto =
     bier.foto || null;
