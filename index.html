@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 
@@ -19,401 +20,223 @@
     box-sizing: border-box;
 }
 
-
 body {
-
     font-family: Arial, sans-serif;
-
     margin: 0;
-
     padding: 15px;
-
     background: #f7f7f7;
-
     color: #222;
-
 }
-
 
 h1 {
-
     text-align: center;
-
     font-size: 28px;
-
 }
-
 
 h2 {
-
     margin-top: 25px;
-
 }
-
 
 input,
 textarea,
 select {
-
     display: block;
-
     width: 100%;
-
     max-width: 500px;
-
     margin: 6px 0 14px 0;
-
     padding: 12px;
-
     font-size: 16px;
-
     border: 1px solid #aaa;
-
     border-radius: 6px;
-
     background: white;
-
 }
-
 
 textarea {
-
     min-height: 120px;
-
     resize: vertical;
-
 }
-
 
 button {
-
     padding: 11px 15px;
-
     margin: 5px 3px;
-
     font-size: 16px;
-
     border: 1px solid #888;
-
     border-radius: 6px;
-
     background: white;
-
     cursor: pointer;
-
 }
-
 
 button:hover {
-
     background: #eee;
-
 }
-
 
 #loginBereich {
-
     max-width: 450px;
-
     margin: 30px auto;
-
     padding: 20px;
-
     background: white;
-
     border: 1px solid #ddd;
-
     border-radius: 10px;
-
 }
-
 
 #appBereich {
-
     max-width: 1200px;
-
     margin: auto;
-
 }
-
 
 #benutzerInfo {
-
     text-align: right;
-
     margin-bottom: 15px;
-
 }
-
 
 #loginNachricht {
-
     font-weight: bold;
-
 }
-
 
 .formular {
-
     background: white;
-
     padding: 20px;
-
     border-radius: 10px;
-
     border: 1px solid #ddd;
-
 }
-
 
 .suchbereich {
-
     background: white;
-
     padding: 15px;
-
     margin-top: 30px;
-
     border-radius: 10px;
-
     border: 1px solid #ddd;
-
 }
-
 
 table {
-
     border-collapse: collapse;
-
     margin-top: 20px;
-
     width: 100%;
-
     background: white;
-
 }
-
 
 th,
 td {
-
     border: 1px solid #999;
-
     padding: 8px;
-
     text-align: center;
-
     white-space: nowrap;
-
     vertical-align: middle;
-
 }
-
 
 th {
-
     background: #eee;
-
 }
-
 
 .gesamt {
-
     font-weight: bold;
-
 }
-
 
 .etikettFoto {
-
     width: 90px;
-
     height: 90px;
-
     object-fit: cover;
-
     border-radius: 6px;
-
     cursor: pointer;
-
     border: 1px solid #aaa;
-
 }
-
 
 .keinFoto {
-
     color: #777;
-
     font-size: 13px;
-
 }
-
 
 .fotoBereich {
-
     margin-bottom: 20px;
-
 }
-
 
 .fotoVorschau {
-
     max-width: 250px;
-
     max-height: 250px;
-
     margin-top: 10px;
-
     border-radius: 8px;
-
     border: 1px solid #aaa;
-
     display: none;
-
 }
-
 
 .fotoHinweis {
-
     color: #666;
-
     font-size: 14px;
-
 }
-
 
 .filterZeile {
-
     display: flex;
-
     gap: 10px;
-
     flex-wrap: wrap;
-
 }
-
 
 .filterZeile input,
 .filterZeile select {
-
     flex: 1;
-
     min-width: 220px;
-
 }
-
 
 .modal {
-
     display: none;
-
     position: fixed;
-
     z-index: 1000;
-
     left: 0;
-
     top: 0;
-
     width: 100%;
-
     height: 100%;
-
     background: rgba(0,0,0,0.8);
-
     justify-content: center;
-
     align-items: center;
-
     padding: 20px;
-
 }
-
 
 .modal img {
-
     max-width: 95%;
-
     max-height: 90%;
-
     object-fit: contain;
-
 }
-
 
 .modalSchliessen {
-
     position: absolute;
-
     top: 15px;
-
     right: 20px;
-
     color: white;
-
     font-size: 35px;
-
     cursor: pointer;
-
 }
-
 
 @media (max-width: 700px) {
 
     body {
-
         padding: 10px;
-
     }
-
 
     h1 {
-
         font-size: 24px;
-
     }
-
 
     h2 {
-
         font-size: 20px;
-
     }
-
 
     table {
-
         display: block;
-
         overflow-x: auto;
-
         white-space: nowrap;
-
     }
-
 
     th,
     td {
-
         padding: 7px;
-
         font-size: 14px;
-
     }
-
 
     button {
-
         font-size: 15px;
-
     }
 
-
     #benutzerInfo {
-
         text-align: center;
-
     }
 
 }
@@ -425,60 +248,38 @@ th {
 
 
 /* =========================================================
-   FIREBASE IMPORTS
+   FIREBASE
    ========================================================= */
 
 import {
-
     initializeApp
-
 } from
 "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
 
 import {
-
     getAuth,
-
     createUserWithEmailAndPassword,
-
     signInWithEmailAndPassword,
-
     signOut,
-
     onAuthStateChanged,
-
     setPersistence,
-
     browserLocalPersistence
-
 } from
 "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 
 import {
-
     getFirestore,
-
     collection,
-
     addDoc,
-
     getDocs,
-
     updateDoc,
-
     deleteDoc,
-
     doc
-
 } from
 "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-
-/* =========================================================
-   FIREBASE KONFIGURATION
-   ========================================================= */
 
 const firebaseConfig = {
 
@@ -503,10 +304,6 @@ const firebaseConfig = {
 };
 
 
-/* =========================================================
-   FIREBASE STARTEN
-   ========================================================= */
-
 const app =
     initializeApp(firebaseConfig);
 
@@ -520,7 +317,7 @@ const db =
 
 
 /* =========================================================
-   LOGIN SOLL ERHALTEN BLEIBEN
+   LOGIN ERHALTEN
    ========================================================= */
 
 try {
@@ -535,7 +332,7 @@ try {
 catch (error) {
 
     console.error(
-        "Fehler beim Setzen der Login-Persistenz:",
+        "Fehler bei der Login-Persistenz:",
         error
     );
 
@@ -561,19 +358,16 @@ let aktuellesFoto = null;
 
 async function registrieren() {
 
-
     const email =
         document
             .getElementById("email")
             .value
             .trim();
 
-
     const passwort =
         document
             .getElementById("passwort")
             .value;
-
 
     const nachricht =
         document
@@ -620,7 +414,6 @@ async function registrieren() {
 
         nachricht.innerText =
             "Konto erfolgreich erstellt!";
-
 
     }
 
@@ -678,19 +471,16 @@ async function registrieren() {
 
 async function anmelden() {
 
-
     const email =
         document
             .getElementById("email")
             .value
             .trim();
 
-
     const passwort =
         document
             .getElementById("passwort")
             .value;
-
 
     const nachricht =
         document
@@ -811,9 +601,7 @@ onAuthStateChanged(
 
     async (user) => {
 
-
         if (user) {
-
 
             aktuellerBenutzer =
                 user;
@@ -846,19 +634,15 @@ onAuthStateChanged(
 
             await ladeBiere();
 
-
         }
 
         else {
 
-
             aktuellerBenutzer =
                 null;
 
-
             biere =
                 [];
-
 
             aktuellesFoto =
                 null;
@@ -887,11 +671,10 @@ onAuthStateChanged(
 
 
 /* =========================================================
-   FIRESTORE PFAD
+   FIRESTORE
    ========================================================= */
 
 function bierSammlung() {
-
 
     if (!aktuellerBenutzer) {
 
@@ -923,7 +706,6 @@ function bierSammlung() {
 
 async function ladeBiere() {
 
-
     if (!aktuellerBenutzer) {
 
         return;
@@ -932,7 +714,6 @@ async function ladeBiere() {
 
 
     try {
-
 
         const snapshot =
             await getDocs(
@@ -970,7 +751,6 @@ async function ladeBiere() {
 
         listeFiltern();
 
-
     }
 
     catch (error) {
@@ -994,11 +774,8 @@ async function ladeBiere() {
 
 function komprimiereBild(file) {
 
-
     return new Promise(
-
         (resolve, reject) => {
-
 
             const reader =
                 new FileReader();
@@ -1007,7 +784,6 @@ function komprimiereBild(file) {
             reader.onload =
                 function(event) {
 
-
                     const img =
                         new Image();
 
@@ -1015,14 +791,12 @@ function komprimiereBild(file) {
                     img.onload =
                         function() {
 
-
                             const MAX_BREITE =
                                 900;
 
 
                             let breite =
                                 img.width;
-
 
                             let hoehe =
                                 img.height;
@@ -1033,12 +807,10 @@ function komprimiereBild(file) {
                                 MAX_BREITE
                             ) {
 
-
                                 hoehe =
                                     hoehe *
                                     MAX_BREITE /
                                     breite;
-
 
                                 breite =
                                     MAX_BREITE;
@@ -1054,7 +826,6 @@ function komprimiereBild(file) {
 
                             canvas.width =
                                 breite;
-
 
                             canvas.height =
                                 hoehe;
@@ -1084,7 +855,6 @@ function komprimiereBild(file) {
                             canvas.toBlob(
 
                                 function(blob) {
-
 
                                     if (!blob) {
 
@@ -1149,7 +919,6 @@ function komprimiereBild(file) {
             reader.readAsDataURL(file);
 
         }
-
     );
 
 }
@@ -1160,7 +929,6 @@ function komprimiereBild(file) {
    ========================================================= */
 
 async function fotoAusgewaehlt(event) {
-
 
     const file =
         event.target.files[0];
@@ -1193,7 +961,6 @@ async function fotoAusgewaehlt(event) {
 
     try {
 
-
         aktuellesFoto =
             await komprimiereBild(file);
 
@@ -1210,7 +977,6 @@ async function fotoAusgewaehlt(event) {
 
         vorschau.style.display =
             "block";
-
 
     }
 
@@ -1237,7 +1003,6 @@ async function fotoAusgewaehlt(event) {
    ========================================================= */
 
 function fotoLoeschen() {
-
 
     aktuellesFoto =
         null;
@@ -1272,7 +1037,6 @@ function fotoLoeschen() {
    ========================================================= */
 
 async function bierSpeichern() {
-
 
     const name =
         document
@@ -1414,11 +1178,9 @@ async function bierSpeichern() {
 
     try {
 
-
         if (
             bearbeitungsIndex === -1
         ) {
-
 
             bier.erstelltAm =
                 Date.now();
@@ -1435,7 +1197,6 @@ async function bierSpeichern() {
         }
 
         else {
-
 
             const bierId =
                 biere[
@@ -1495,7 +1256,6 @@ async function bierSpeichern() {
 
         await ladeBiere();
 
-
     }
 
     catch (error) {
@@ -1514,11 +1274,10 @@ async function bierSpeichern() {
 
 
 /* =========================================================
-   LISTE FILTERN UND SORTIEREN
+   FILTERN UND SORTIEREN
    ========================================================= */
 
 function listeFiltern() {
-
 
     const suchbegriff =
         document
@@ -1542,7 +1301,6 @@ function listeFiltern() {
         biere.filter(
 
             bier => {
-
 
                 const name =
                     (
@@ -1578,10 +1336,8 @@ function listeFiltern() {
 
 
     if (
-        sortierung ===
-        "beste"
+        sortierung === "beste"
     ) {
-
 
         ergebnis.sort(
 
@@ -1595,10 +1351,8 @@ function listeFiltern() {
 
 
     else if (
-        sortierung ===
-        "schlechteste"
+        sortierung === "schlechteste"
     ) {
-
 
         ergebnis.sort(
 
@@ -1612,10 +1366,8 @@ function listeFiltern() {
 
 
     else if (
-        sortierung ===
-        "nameAZ"
+        sortierung === "nameAZ"
     ) {
-
 
         ergebnis.sort(
 
@@ -1632,10 +1384,8 @@ function listeFiltern() {
 
 
     else if (
-        sortierung ===
-        "nameZA"
+        sortierung === "nameZA"
     ) {
-
 
         ergebnis.sort(
 
@@ -1662,16 +1412,12 @@ function listeFiltern() {
    ANZEIGEN
    ========================================================= */
 
-function anzeigen(
-    liste = biere
-) {
-
+function anzeigen(liste = biere) {
 
     const tbody =
-        document
-            .getElementById(
-                "bierliste"
-            );
+        document.getElementById(
+            "bierliste"
+        );
 
 
     tbody.innerHTML =
@@ -1679,9 +1425,7 @@ function anzeigen(
 
 
     liste.forEach(
-
         (bier) => {
-
 
             const originalIndex =
                 biere.indexOf(
@@ -1695,132 +1439,100 @@ function anzeigen(
                 );
 
 
-            let fotoHTML =
-                '<span class="keinFoto">kein Foto</span>';
-
-
-            if (
-                bier.foto
-            ) {
-
-
-                const foto = document.createElement(
-                    "img"
-                );
-
-
-                foto.src =
-                    bier.foto;
-
-
-                foto.className =
-                    "etikettFoto";
-
-
-                foto.alt =
-                    "Etikett";
-
-
-                foto.addEventListener(
-                    "click",
-                    () => fotoOeffnen(bier.foto)
-                );
-
-
-                const fotoZelle =
-                    document.createElement(
-                        "td"
-                    );
-
-
-                fotoZelle.appendChild(
-                    foto
-                );
-
-
-                zeile.appendChild(
-                    document.createElement(
-                        "td"
-                    )
-                );
-
-
-                /* Die Zellen werden weiter unten
-                   in der korrekten Reihenfolge aufgebaut. */
-
-            }
-
-
-            /* =================================================
-               ZELLEN
-               ================================================= */
+            /* ==============================================
+               1. NR.
+               ============================================== */
 
             const zelleNr =
-                document.createElement("td");
-
+                document.createElement(
+                    "td"
+                );
 
             zelleNr.innerText =
                 originalIndex + 1;
-
 
             zeile.appendChild(
                 zelleNr
             );
 
 
-            const zelleName =
-                document.createElement("td");
+            /* ==============================================
+               2. BIER
+               ============================================== */
 
+            const zelleName =
+                document.createElement(
+                    "td"
+                );
 
             zelleName.innerText =
                 bier.name || "";
-
 
             zeile.appendChild(
                 zelleName
             );
 
 
-            const zelleBrauerei =
-                document.createElement("td");
+            /* ==============================================
+               3. BRAUEREI
+               ============================================== */
 
+            const zelleBrauerei =
+                document.createElement(
+                    "td"
+                );
 
             zelleBrauerei.innerText =
                 bier.brauerei || "";
-
 
             zeile.appendChild(
                 zelleBrauerei
             );
 
 
+            /* ==============================================
+               4. ALKOHOL
+               ============================================== */
+
             const zelleAlkohol =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
-
-            zelleAlkohol.innerText =
+            if (
                 bier.alkohol !== undefined &&
                 bier.alkohol !== null &&
                 bier.alkohol !== ""
-                    ? bier.alkohol + " %"
-                    : "";
+            ) {
 
+                zelleAlkohol.innerText =
+                    bier.alkohol + " %";
+
+            }
+
+            else {
+
+                zelleAlkohol.innerText =
+                    "";
+
+            }
 
             zeile.appendChild(
                 zelleAlkohol
             );
 
 
-            /* =================================================
-               FOTO – JETZT VOR ETIKETT
-               ================================================= */
+            /* ==============================================
+               5. FOTO
+               ============================================== */
 
             const zelleFoto =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             if (bier.foto) {
-
 
                 const foto =
                     document.createElement(
@@ -1842,7 +1554,15 @@ function anzeigen(
 
                 foto.addEventListener(
                     "click",
-                    () => fotoOeffnen(bier.foto)
+                    function(event) {
+
+                        event.stopPropagation();
+
+                        fotoOeffnen(
+                            bier.foto
+                        );
+
+                    }
                 );
 
 
@@ -1853,7 +1573,6 @@ function anzeigen(
             }
 
             else {
-
 
                 const keinFoto =
                     document.createElement(
@@ -1881,12 +1600,14 @@ function anzeigen(
             );
 
 
-            /* =================================================
-               ETIKETT – HIER STEHT DIE BEWERTUNGSZAHL
-               ================================================= */
+            /* ==============================================
+               6. ETIKETT
+               ============================================== */
 
             const zelleEtikett =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             zelleEtikett.innerText =
@@ -1901,8 +1622,14 @@ function anzeigen(
             );
 
 
+            /* ==============================================
+               7. FARBE
+               ============================================== */
+
             const zelleFarbe =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             zelleFarbe.innerText =
@@ -1914,8 +1641,14 @@ function anzeigen(
             );
 
 
+            /* ==============================================
+               8. SCHAUM
+               ============================================== */
+
             const zelleSchaum =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             zelleSchaum.innerText =
@@ -1927,8 +1660,14 @@ function anzeigen(
             );
 
 
+            /* ==============================================
+               9. GERUCH
+               ============================================== */
+
             const zelleGeruch =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             zelleGeruch.innerText =
@@ -1940,8 +1679,14 @@ function anzeigen(
             );
 
 
+            /* ==============================================
+               10. SÜFFIGKEIT
+               ============================================== */
+
             const zelleSueffigkeit =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             zelleSueffigkeit.innerText =
@@ -1953,8 +1698,14 @@ function anzeigen(
             );
 
 
+            /* ==============================================
+               11. GESCHMACK
+               ============================================== */
+
             const zelleGeschmack =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             zelleGeschmack.innerText =
@@ -1966,8 +1717,14 @@ function anzeigen(
             );
 
 
+            /* ==============================================
+               12. GESAMT
+               ============================================== */
+
             const zelleGesamt =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             zelleGesamt.className =
@@ -1983,8 +1740,14 @@ function anzeigen(
             );
 
 
+            /* ==============================================
+               13. NOTIZEN
+               ============================================== */
+
             const zelleNotizen =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             zelleNotizen.innerText =
@@ -1996,8 +1759,14 @@ function anzeigen(
             );
 
 
+            /* ==============================================
+               14. AKTION
+               ============================================== */
+
             const zelleAktion =
-                document.createElement("td");
+                document.createElement(
+                    "td"
+                );
 
 
             const bearbeitenButton =
@@ -2016,10 +1785,13 @@ function anzeigen(
 
             bearbeitenButton.addEventListener(
                 "click",
-                () =>
+                function() {
+
                     bierBearbeiten(
                         originalIndex
-                    )
+                    );
+
+                }
             );
 
 
@@ -2039,10 +1811,13 @@ function anzeigen(
 
             loeschenButton.addEventListener(
                 "click",
-                () =>
+                function() {
+
                     bierLoeschen(
                         originalIndex
-                    )
+                    );
+
+                }
             );
 
 
@@ -2066,7 +1841,6 @@ function anzeigen(
             );
 
         }
-
     );
 
 }
@@ -2077,7 +1851,6 @@ function anzeigen(
    ========================================================= */
 
 function bierBearbeiten(index) {
-
 
     const bier =
         biere[index];
@@ -2182,7 +1955,6 @@ function bierBearbeiten(index) {
 
     if (aktuellesFoto) {
 
-
         vorschau.src =
             aktuellesFoto;
 
@@ -2193,7 +1965,6 @@ function bierBearbeiten(index) {
     }
 
     else {
-
 
         vorschau.src =
             "";
@@ -2250,7 +2021,6 @@ function bierBearbeiten(index) {
 
 async function bierLoeschen(index) {
 
-
     const bestaetigung =
         confirm(
             "Dieses Bier wirklich löschen?"
@@ -2265,7 +2035,6 @@ async function bierLoeschen(index) {
 
 
     try {
-
 
         const bierId =
             biere[index].id;
@@ -2304,7 +2073,6 @@ async function bierLoeschen(index) {
 
         await ladeBiere();
 
-
     }
 
     catch (error) {
@@ -2327,7 +2095,6 @@ async function bierLoeschen(index) {
    ========================================================= */
 
 function abbrechenBearbeiten() {
-
 
     bearbeitungsIndex =
         -1;
@@ -2360,35 +2127,24 @@ function abbrechenBearbeiten() {
 
 function formularLeeren() {
 
-
     const felder = [
 
         "biername",
-
         "brauerei",
-
         "alkohol",
-
         "farbe",
-
         "etikett",
-
         "schaum",
-
         "geruch",
-
         "sueffigkeit",
-
         "geschmack",
-
         "notizen"
 
     ];
 
 
     felder.forEach(
-
-        (id) => {
+        function(id) {
 
             document
                 .getElementById(id)
@@ -2396,7 +2152,6 @@ function formularLeeren() {
                 "";
 
         }
-
     );
 
 
@@ -2434,7 +2189,6 @@ function formularLeeren() {
 
 function fotoOeffnen(foto) {
 
-
     document
         .getElementById(
             "grossesFoto"
@@ -2459,7 +2213,6 @@ function fotoOeffnen(foto) {
 
 function fotoModalSchliessen() {
 
-
     document
         .getElementById(
             "fotoModal"
@@ -2471,14 +2224,12 @@ function fotoModalSchliessen() {
 
 
 /* =========================================================
-   ESC-TASTE SCHLIESST FOTO
+   ESC SCHLIESST FOTO
    ========================================================= */
 
 document.addEventListener(
-
     "keydown",
-
-    (event) => {
+    function(event) {
 
         if (
             event.key === "Escape"
@@ -2489,45 +2240,36 @@ document.addEventListener(
         }
 
     }
-
 );
 
 
 /* =========================================================
-   FUNKTIONEN FÜR HTML-BUTTONS VERFÜGBAR MACHEN
+   FUNKTIONEN FÜR HTML
    ========================================================= */
 
 window.registrieren =
     registrieren;
 
-
 window.anmelden =
     anmelden;
-
 
 window.abmelden =
     abmelden;
 
-
 window.bierSpeichern =
     bierSpeichern;
-
 
 window.fotoAusgewaehlt =
     fotoAusgewaehlt;
 
-
 window.fotoLoeschen =
     fotoLoeschen;
-
 
 window.listeFiltern =
     listeFiltern;
 
-
 window.abbrechenBearbeiten =
     abbrechenBearbeiten;
-
 
 window.fotoModalSchliessen =
     fotoModalSchliessen;
@@ -2547,9 +2289,7 @@ window.fotoModalSchliessen =
 
 <div id="loginBereich">
 
-
     <h1>🍺 Bierverkostung</h1>
-
 
     <h2>Anmelden</h2>
 
@@ -2588,7 +2328,6 @@ window.fotoModalSchliessen =
         id="loginNachricht"
     ></p>
 
-
 </div>
 
 
@@ -2604,7 +2343,6 @@ window.fotoModalSchliessen =
 
     <div id="benutzerInfo">
 
-
         <span
             id="angemeldeterBenutzer"
         ></span>
@@ -2615,7 +2353,6 @@ window.fotoModalSchliessen =
         >
             🚪 Abmelden
         </button>
-
 
     </div>
 
@@ -2669,8 +2406,6 @@ window.fotoModalSchliessen =
             placeholder="z. B. 5.2"
         >
 
-
-        <!-- FOTO -->
 
         <div class="fotoBereich">
 
@@ -2819,7 +2554,7 @@ window.fotoModalSchliessen =
 
 
     <!-- =================================================
-         SUCHE UND SORTIERUNG
+         SUCHE
          ================================================= -->
 
     <div class="suchbereich">
@@ -2894,7 +2629,6 @@ window.fotoModalSchliessen =
 
             <tr>
 
-
                 <th>Nr.</th>
 
                 <th>Bier</th>
@@ -2922,7 +2656,6 @@ window.fotoModalSchliessen =
                 <th>Notizen</th>
 
                 <th>Aktion</th>
-
 
             </tr>
 
@@ -2972,3 +2705,4 @@ window.fotoModalSchliessen =
 </body>
 
 </html>
+```
