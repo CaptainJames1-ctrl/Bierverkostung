@@ -3,7 +3,8 @@ const CACHE_NAME = "bierverkostung-v1";
 const DATEIEN = [
     "./",
     "./index.html",
-    "./manifest.json"
+    "./manifest.json",
+    "./icon-512.png"
 ];
 
 self.addEventListener("install", event => {
